@@ -1,0 +1,69 @@
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="Build a standard HTML5 <form> using any Google Forms">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="icon" href="favicon.ico">
+    <title>Google Forms HTML Formatter</title>
+    <meta property="og:title" content="Google Forms HTML Formatter">
+    <meta property="og:type" content="website">
+    <meta property="og:description" content="Build a standard HTML5 <form> using any Google Forms">
+    <link rel="stylesheet" href="styles/vendor.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <script src="src/cdn/scripts/vendor/modernizr.js"></script>
+</head>
+<body>  
+<div class="chr-hero-light-gm3 chr-hero-light-gm3--secondary chr-hero-light-gm3__secondary-wrapper">
+<div class="chr-hero-light-gm3__secondary-shape"></div>
+<div class="chr-grid-default-parent">
+      <div class="chr-grid-default">
+<h1 class="chr-hero-light-gm3__heading chr-headline-1">Google Forms HTML Formatter</h1>
+            <p class="chr-headline-5 chr-hero-light-gm3__body" role="text">Build a standard HTML5 <code>&lt;form&gt;</code> using any <a href="https://www.google.com/forms/about/" target="_blank">Google Forms</a></p>
+</div>
+    </div>
+<div class="chr-hero-light-gm3__icon" aria-hidden="true">
+        
+      <img src="images/icon-forms-9.jpg" class="chr-hero-light-gm3__horizontal-line__image" role="img" alt="Google Form logo." data-img-fallback="/chrome/static/images/fallback/chrome-logo.png"><div class="chr-hero-light-gm3__icon-circle"></div>
+      </div>
+</div>
+    <div class="container">
+        <div class="form-fetch">
+            <div class="form-group">
+                <h4>Paste the public URL of your Google Forms</h4>
+                <h5>or</h5>
+                <h4><a id="example-action" href="#">Click Here</a> to fill with <a id="example-url" target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdls8ZHN0eT2UIKdC2FM730McPOxVPbY3WVJzsxtMQr5vKD1A/viewform">this example</a></h4>
+            </div>
+            <div class="form-group"><input tabindex="1" type="text" class="form-control" id="input-url" placeholder="Google Forms URL" data-toggle="tooltip" data-placement="bottom"></div>
+            <div class="form-group"><button tabindex="2" class="btn btn-primary" type="button" id="button-fetch" data-loading-text="Loading...">Get the HTML</button></div>
+        </div>
+        <div id="main-area" class="hidden">
+            <ul class="nav nav-tabs tab" role="tablist">
+                <li role="presentation" class="active tab-item"><a href="#tab-demo" aria-controls="example" role="tab" data-toggle="tab">Form</a></li>
+                <li role="presentation" class="tab-item"><a href="#tab-bootstrap" aria-controls="example" role="tab" data-toggle="tab">Source Code</a></li>
+            </ul>
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="tab-demo">
+                    <div id="target-demo"></div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="tab-bootstrap">
+                    <h3>HTML</h3>
+                    <pre class="html" id="target-bootstrap-html">
+            </pre>
+                    <h3>JS</h3>
+                    <pre class="js" id="target-bootstrap-js">
+            </pre>
+                </div>
+            </div>
+        </div>
+        <footer class="footer"id='mycontent'>
+            <p>© 2017 <a href="http://stefano.brilli.me" target="_blank">Stefano Brilli</a></p>
+        </footer> 
+   <script src="src/cdn/scripts/vendor.js"></script>
+    <script src="src/cdn/scripts/plugins.js"></script>
+    <script src="src/cdn/scripts/config.js"></script>
+    <script src="src/cdn/scripts/main.js"></script>
+</body>
+
+</html>
