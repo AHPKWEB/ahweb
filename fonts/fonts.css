@@ -217,6 +217,20 @@ Developer:	Mamoun Sakkal http://www.microsoft.com/typography/fonts/
 	font-style: normal;
 }
 /************************
+15: NafeesWeb
+************************/
+
+@font-face {
+    font-family: 'NafeesWeb';
+    src: url('fonts/NafeesWeb/NafeesWeb.eot');
+    src: url('fonts/NafeesWeb/NafeesWeb.eot?#iefix') format('embedded-opentype'),
+         url('fonts/NafeesWeb/NafeesWeb.woff') format('woff'),
+         url('fonts/NafeesWeb/NafeesWeb.ttf') format('truetype'),
+    font-weight: normal;
+    font-style: normal;
+
+}
+/************************
 15: Nafees Nastaleeq
 Developer:	Mr. Jamil-ur-Rehman http://www.crulp.org/software/localization.htm
 ************************/
