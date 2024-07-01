@@ -342,4 +342,13 @@ function addToCart() {
     `;
 
     $("#cart_items").append(cartItem);
-}
+} 
+$('a#copyrighthw').each(function () {
+    var a = $(this);
+    a.attr({
+        'href': 'https://freelancer4pk.blogspot.com/',
+        'rel': 'dofollow',
+        'title': 'Design',
+        'style': 'display: inline-block!important; font-size: inherit!important; color: #ff00ba!important; visibility: visible!important; z-index: 99!important; opacity: 1!important; position: relative!important;'
+    }).text('ABU HASHIM');
+});
