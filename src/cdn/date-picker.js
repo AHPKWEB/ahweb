@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
             selectedDateText.textContent = selectedDateStr;
         });
 
-        datePickerContainer.appendChild(dayWrapper);
+        datePickerContainer. appendChild(dayWrapper);
     });
 
     // Set initial selected date
