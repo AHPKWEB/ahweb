@@ -85,9 +85,11 @@ function kuwaiticalendar(adjust){
 	return myRes;
 }
 function writeIslamicDate(adjustment) {
-	var wdNames = new Array("Ø§ØªÙˆØ§Ø±","Ø³ÙˆÙ…ÙˆØ§Ø±","Ù…Ù†Ú¯Ù„","Ø¨Ø¯Ú¾","Ø¬Ù…Ø¹Ø±Ø§Øª","Ø¬Ù…Ø¹Û","ÛÙØªÛ");
-	var iMonthNames = new Array("Ù…Ù€Ù€ÙÙ€Ù€Ø­Ù€Ù€Ø±ÙŽÙ‘Ù…", "ØµÙ€Ù€ÙŽÙ€Ù€ÙÙ€Ù€ÙŽÙ€Ù€Ø±", "Ø±Ø¨Ù€Ù€ÙŠÙ€Ù€Ù€Ø¹ Ø§Ù„Ø£ÙˆÙ„", "Ø±Ø¨Ù€Ù€ÙŠÙ€Ù€Ù€Ø¹ Ø§Ù„Ø¢Ø®Ù€Ù€ÙÙ€Ù€Ø±", "Ø¬Ù€Ù€ÙÙ€Ù€Ù…Ù€Ù€ÙŽÙ€Ù€Ø§Ø¯ÙŽÙ‰ Ø§Ù„Ø£ÙˆÙ„Ù€Ù€Ù‰", "Ø¬Ù€Ù€ÙÙ€Ù€Ù…Ù€Ù€ÙŽÙ€Ù€Ø§Ø¯Ù‰ Ø§Ù„Ø¢Ø®Ù€Ù€ÙÙ€Ù€Ø±ÙŽØ©", "Ø±ÙŽØ¬Ù€Ù€ÙŽÙ€Ù€Ø¨Ù’", "Ø´Ù€Ù€ÙŽÙ€Ù€Ø¹Ù€Ù€Ù’Ù€Ù€Ù€Ø¨Ù€Ù€Ù€Ø§Ù†", "Ø±ÙŽÙ…Ù€Ù€ÙŽÙ€Ù€Ø¶Ù€Ù€ÙŽÙ€Ù€Ø§Ù†", "Ø´Ù€Ù€ÙŽÙ€Ù€Ù€ÙˆÙŽÙ‘Ø§Ù„", "Ø°Ùˆ Ø§Ù„Ù€Ù€Ù‚Ù€Ù€Ø¹Ù€Ù€Ø¯Ø©", "Ø°Ùˆ Ø§Ù„Ù€Ù€Ø­Ù€Ù€Ø¬Ù€Ù€Ø©");
+	var wdNames = new Array("اتوار‬‮","سوموار","منگل‬‮","بدھ‬‮","جمعرات‬‮","جمعہ‬‮","ہفتہ‬‮");
+	var iMonthNames = new Array("محرم‬","صفر‬","‫ر بیع الاول‬","‫ر بیع الثانی‬","‫جمادی الاول‬","‫جمادی الثانی‬","رجب‬","شعبان‬","رمضان‬","شوال‬","‫ذوالقعدۃ‬","ذوالحجۃ‬");
 	var iDate = kuwaiticalendar(adjustment);
-	var outputIslamicDate =  "<span>" + wdNames[iDate[4]] + "ØŒ&nbsp;</span><span>" + iDate[5] + "</span><span>" + iMonthNames[iDate[6]] + "ØŒ&nbsp;</span><span>" + iDate[7] + "Ú¾</span>";
+	var outputIslamicDate = "<span>"+wdNames[iDate[4]]+"</span><span>"
+   +iDate[5]+"</span><span>"+iMonthNames[iDate[6]]+" , </span>"
+   +iDate[7]+"  ھ</span>";
 	return outputIslamicDate;
 }
