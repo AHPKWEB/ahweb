@@ -3,8 +3,8 @@
     "short_name":"HWEB",
     "start_url":"https://www.hashimweb.com",
     "display":"standalone",
-    "background_color":"#5900b3",
-    "theme_color":"black",
+    "background_color":"#e0f1e9",
+    "theme_color":"#1e9689",
     "scope": ".",
     "description":"HASHIM WEB IT Development Solutions.",
     "icons":[
