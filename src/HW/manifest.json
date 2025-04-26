@@ -1,0 +1,22 @@
+{
+    "name":"HASHIM WEB",
+    "short_name":"HWEB",
+    "start_url":"https://www.hashimweb.com",
+    "display":"standalone",
+    "background_color":"#5900b3",
+    "theme_color":"black",
+    "scope": ".",
+    "description":"HASHIM WEB IT Development Solutions.",
+    "icons":[
+    {
+    "src":"images/android-192x192",                     
+    "sizes":"192x192",
+    "type":"image/png"
+    },
+    {
+    "src":"images/android-512x512.png",
+    "sizes":"512x512",
+    "type":"image/png"
+    }
+  ]
+}
