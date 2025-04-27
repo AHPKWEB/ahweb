@@ -1,4 +1,4 @@
-<script>
+
 // Android and Windows
 let deferredPrompt;
 window.addEventListener('beforeinstallprompt', (e) => {
@@ -29,4 +29,4 @@ window.addEventListener('load', function() {
     alert("📲 Install HASHIM WEB App:\nTap Share → Add to Home Screen.");
   }
 });
-</script>
+
