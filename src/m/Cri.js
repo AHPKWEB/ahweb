@@ -162,7 +162,9 @@ doc.setFontSize(11);
 doc.setTextColor(0, 0, 0);
 const termsFull = `This quotation is valid for next 24 hours.
 We charge 1500/- per day additional for heating in room.
-The Chinar Resorts management reserves the right to modify any or all listed rates at its sole discretion, at any time and without assigning any reason. Bookings against which advance payment has been received shall, however, be honored and those shall not be affected by any such rate adjustments.
+The Chinar Resorts management reserves the right to modify any or all listed rates at its sole discretion, at any time and without 
+assigning any reason. Bookings against which advance payment has been received shall, however, be honored and those shall not be 
+affected by any such rate adjustments.
 Number of beds in our different types of rooms:
 • Each Standard Room has 2 single beds or 1 double bed
 • Each Deluxe Room has 2 single beds or 1 double bed
@@ -179,7 +181,8 @@ Room Sharing:
 • Max 3 person sharing in a Deluxe room
 • Max 3 person sharing in a Standard room
 Guests of age 12 and above are considered adults.
-Corporate/Group event package rates can be obtained from the Chinar Resorts Head Office in Islamabad or through our social media. Each package is tailored to client needs.
+Corporate/Group event package rates can be obtained from the Chinar Resorts Head Office in Islamabad or through our social media.
+Each package is tailored to client needs.
 Car Parking:
 • Nominal fee of PKR 200/- per vehicle/night at Paras Bazar.
 Winter Closure:
