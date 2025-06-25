@@ -151,6 +151,64 @@ async function generateInvoice() {
     doc.setFontSize(14);
 	doc.setTextColor(204, 0, 0);
     doc.text("See the second page attached to read the general terms and conditions.", 20, footerY + 20);
+// Add new page for Terms & Conditions
+doc.addPage();
+doc.setFont("helvetica", "bold");
+doc.setFontSize(16);
+doc.setTextColor(0, 51, 153);
+doc.text("General Terms and Conditions", 15, 20);
+doc.setFont("times", "normal");
+doc.setFontSize(11);
+doc.setTextColor(0, 0, 0);
+const termsFull = `This quotation is valid for next 24 hours.
+We charge 1500/- per day additional for heating in room.
+The Chinar Resorts management reserves the right to modify any or all listed rates at its sole discretion, at any time and without assigning any reason. Bookings against which advance payment has been received shall, however, be honored and those shall not be affected by any such rate adjustments.
+Number of beds in our different types of rooms:
+• Each Standard Room has 2 single beds or 1 double bed
+• Each Deluxe Room has 2 single beds or 1 double bed
+• Each Deluxe-Plus Room has a double bed & 1 single bed
+• Each Executive Room has 1 double bed
+Extra mattress limits for different rooms (PKR 1000/- per mattress):
+• 1 extra mattress per Standard Room (Complimentary)
+• 1 extra mattress per Deluxe Room (Complimentary)
+• 1 extra mattress per Triple-Deluxe Room (Charged)
+• 2 extra mattresses per Executive Room (1 Complimentary + 1 Charged)
+Room Sharing:
+• Max 4 person sharing in a Deluxe-Plus room
+• Max 4 person sharing in an Executive room
+• Max 3 person sharing in a Deluxe room
+• Max 3 person sharing in a Standard room
+Guests of age 12 and above are considered adults.
+Corporate/Group event package rates can be obtained from the Chinar Resorts Head Office in Islamabad or through our social media. Each package is tailored to client needs.
+Car Parking:
+• Nominal fee of PKR 200/- per vehicle/night at Paras Bazar.
+Winter Closure:
+Chinar Resorts may close from December to March. Please confirm status with our Islamabad office prior to visit.
+Other Policies:
+• Rights of admission reserved.
+• Food services available from 7:00 am to midnight.
+• No indoor or outdoor cooking allowed.
+• Room service available from 7:00 am to midnight.
+Booking Cancellation / Amendment Policy:
+1. Confirmed bookings cannot be cancelled under any circumstances.
+2. Booking dates may be changed with the following conditions:
+   a. For peak season, changes must be requested at least 7 days before original check-in at 12 noon.
+   b. Requests with insufficient notice will not be entertained.
+   c. If rooms are not available on new dates, options are:
+      i. Move to next available dates.
+      ii. Keep original booking.
+3. Violations result in forfeited advance payment. No refunds.
+4. Policies subject to change at Chinar Resorts' discretion.`.split("\n");
+
+let ty = 30;
+termsFull.forEach((line) => {
+  if (ty > 280) {
+    doc.addPage();
+    ty = 20;
+  }
+  doc.text(line, 15, ty);
+  ty += 7;
+});
 
 
     // Generate and Download/Share PDF
