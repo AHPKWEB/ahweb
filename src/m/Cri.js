@@ -82,7 +82,7 @@ async function generateInvoice() {
         return;
     }
 
-    let gst = subtotal * 0.05; // 5% GST
+    let gst = subtotal * 0.06; // 6% GST
     let grandTotal = subtotal + gst;
     let balanceAmount = grandTotal - advance;
 
@@ -133,7 +133,7 @@ async function generateInvoice() {
     doc.setTextColor(0, 51, 153);
     doc.setFontSize(13);
     doc.text(`Subtotal:  Rs ${subtotal.toFixed(2)}`, 140, finalY);
-    doc.text(`GST (5%): Rs ${gst.toFixed(2)}`, 140, finalY + 10);
+    doc.text(`GST (6%): Rs ${gst.toFixed(2)}`, 140, finalY + 10);
     doc.text(`Grand Total:    Rs ${grandTotal.toFixed(2)}`, 130, finalY + 20);
     doc.text(`Advance Paid: Rs ${advance.toFixed(2)}`, 130, finalY + 30);
     doc.text(`------------------------------------------------------------`, 110, finalY + 33);
@@ -160,38 +160,32 @@ doc.text("General Terms and Conditions", 15, 20);
 doc.setFont("times", "normal");
 doc.setFontSize(11);
 doc.setTextColor(0, 0, 0);
-const termsFull = `This quotation is valid for next 24 hours.
-We charge 1500/- per day additional for heating in room.
-The Chinar Resorts management reserves the right to modify any or all listed rates at its sole discretion, at any time and without 
-assigning any reason. Bookings against which advance payment has been received shall, however, be honored and those shall not be 
-affected by any such rate adjustments.
+const termsFull = `Note: A 10% GST will be applicable on all cash payments.
+This quotation is valid for next 24 hours.  We charge 1500/- per day additional for heating in room.
+The Chinar Resorts management reserves the right to modify any or all listed rates at its sole discretion, 
+at any time and without assigning any reason. Bookings against which advance payment has been received shall, however,
+be honored and those shall not be affected by any such rate adjustments.
+
 Number of beds in our different types of rooms:
-• Each Standard Room has 2 single beds or 1 double bed
-• Each Deluxe Room has 2 single beds or 1 double bed
-• Each Deluxe-Plus Room has a double bed & 1 single bed
-• Each Executive Room has 1 double bed
+• Each Standard Room has 2 single beds or 1 double bed   • Each Deluxe Room has 2 single beds or 1 double bed
+• Each Deluxe-Plus Room has a double bed & 1 single bed  • Each Executive Room has 1 double bed
 Extra mattress limits for different rooms (PKR 1000/- per mattress):
-• 1 extra mattress per Standard Room (Complimentary)
-• 1 extra mattress per Deluxe Room (Complimentary)
-• 1 extra mattress per Triple-Deluxe Room (Charged)
-• 2 extra mattresses per Executive Room (1 Complimentary + 1 Charged)
+• 1 extra mattress per Standard Room (Complimentary)  • 2 extra mattress per Deluxe Room (Complimentary)
+• 1 extra mattress per Triple-Deluxe Room (Charged) • 2 extra mattresses per Executive Room(1 Complimentary +1Charged)
 Room Sharing:
-• Max 4 person sharing in a Deluxe-Plus room
-• Max 4 person sharing in an Executive room
-• Max 3 person sharing in a Deluxe room
-• Max 3 person sharing in a Standard room
+• Max 4 person sharing in a Deluxe-Plus room     • Max 4 person sharing in an Executive room
+• Max 3 person sharing in a Deluxe room     • Max 3 person sharing in a Standard room
 Guests of age 12 and above are considered adults.
-Corporate/Group event package rates can be obtained from the Chinar Resorts Head Office in Islamabad or through our social media.
-Each package is tailored to client needs.
+Corporate/Group event package rates can be obtained from the Chinar Resorts 
+Head Office in Islamabad or through our social media. Each package is tailored to client needs.
 Car Parking:
 • Nominal fee of PKR 200/- per vehicle/night at Paras Bazar.
 Winter Closure:
 Chinar Resorts may close from December to March. Please confirm status with our Islamabad office prior to visit.
+
 Other Policies:
-• Rights of admission reserved.
-• Food services available from 7:00 am to midnight.
-• No indoor or outdoor cooking allowed.
-• Room service available from 7:00 am to midnight.
+• Rights of admission reserved.   • Food services available from 7:00 am to midnight.
+• No indoor or outdoor cooking allowed. • Room service available from 7:00 am to midnight.
 Booking Cancellation / Amendment Policy:
 1. Confirmed bookings cannot be cancelled under any circumstances.
 2. Booking dates may be changed with the following conditions:
