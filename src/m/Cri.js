@@ -133,7 +133,7 @@ async function generateInvoice() {
     doc.setTextColor(0, 51, 153);
     doc.setFontSize(13);
     doc.text(`Subtotal:  Rs ${subtotal.toFixed(2)}`, 140, finalY);
-    doc.text(`GST (6%): Rs ${gst.toFixed(2)}`, 140, finalY + 10);
+    doc.text(`GST (10%): Rs ${gst.toFixed(2)}`, 140, finalY + 10);
     doc.text(`Grand Total:    Rs ${grandTotal.toFixed(2)}`, 130, finalY + 20);
     doc.text(`Advance Paid: Rs ${advance.toFixed(2)}`, 130, finalY + 30);
     doc.text(`------------------------------------------------------------`, 110, finalY + 33);
@@ -238,4 +238,5 @@ function downloadPDF(pdfBlob) {
     link.click();
     document.body.removeChild(link);
 }
+
 
