@@ -82,7 +82,7 @@ async function generateInvoice() {
         return;
     }
 
-    let gst = subtotal * 0.06; // 6% GST
+    let gst = subtotal * 0.10; // 10% GST
     let grandTotal = subtotal + gst;
     let balanceAmount = grandTotal - advance;
 
@@ -238,3 +238,4 @@ function downloadPDF(pdfBlob) {
     link.click();
     document.body.removeChild(link);
 }
+
