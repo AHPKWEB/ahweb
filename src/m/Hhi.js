@@ -101,7 +101,7 @@ async function generateInvoice() {
   doc.setTextColor(0, 51, 153);
   doc.setFontSize(11);
   doc.text(`Subtotal: AED ${subtotal.toFixed(2)}`, 130, finalY);
-  doc.text(`VAT (0%): AED ${gst.toFixed(2)}`, 130, finalY + 7);
+  doc.text(`VAT (5%): AED ${gst.toFixed(2)}`, 130, finalY + 7);
   doc.text(`Total:         AED ${grandTotal.toFixed(2)}`, 130, finalY + 14);
   doc.text(`PAID:          AED ${advance.toFixed(2)}`, 130, finalY + 21);
   doc.text(`__________________________`, 130, finalY + 23);
@@ -145,4 +145,5 @@ function downloadPDF(blob) {
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
+
 }
