@@ -1,4 +1,5 @@
-function addItem() {
+  
+  function addItem() {
   const container = document.getElementById("unitsContainer");
   const div = document.createElement("div");
   div.classList.add("unit");
@@ -31,16 +32,19 @@ async function generateInvoice() {
   doc.text("Phone: +971 54 2414054", 65, 26);
   doc.text("Email: mail2rana.khalid@gmail.com", 65, 31);
   doc.text("Office #, Al Dana, East, 11 0: ~, Building, Al Khazna Insurance Company", 65, 36);
+  doc.text("TRN: 105164370600003", 65, 41);
 
   doc.setFillColor(0, 150, 200);
   doc.rect(10, 45, 190, 12, "F");
   doc.setTextColor(255, 255, 255);
   doc.setFontSize(13);
   doc.setFont("helvetica", "bold");
-  doc.text("HOME HARMONY BUILDINGS MAINTENANCE INVOICE", 15, 53);
+  doc.text("HOME HARMONY BUILDINGS MAINTENANCE ***    TEX INVOICE", 15, 53);
+  
 
   const name = document.getElementById("name").value;
   const phone = document.getElementById("phoneNumber").value;
+  const trN = document.getElementById("trn").value;
   const invoice = document.getElementById("INVOICENumber").value;
   const dateInput = document.getElementById("invoiceDate").value;
   const invoiceDate = dateInput
@@ -50,13 +54,16 @@ async function generateInvoice() {
 
   doc.setFontSize(11);
   doc.setTextColor(0, 0, 0);
-  doc.text(`Invoice #: ${invoice}`, 15, 65);
-  doc.text(`Customer: ${name}`, 15, 71);
-  doc.text(`Phone: ${phone}`, 15, 77);
+  doc.text(`Invoice #: ${invoice}`, 130, 71);
+  doc.text("Bil To", 15, 62);
+  doc.text(`Customer: ${name}`, 15, 68);
+  doc.text(`Phone: ${phone}`, 15, 74);
+  doc.text(`TRN  : ${trN}`, 15, 80);
   doc.text(`Invoice Date: ${invoiceDate}`, 130, 65);
 
   const items = [];
   let subtotal = 0;
+  sr = 1;
 
   document.querySelectorAll(".unit").forEach(unit => {
     const desc = unit.querySelector(".description").value;
@@ -64,24 +71,25 @@ async function generateInvoice() {
     const rate = parseFloat(unit.querySelector(".rate").value) || 0;
     const total = qty * rate;
     subtotal += total;
-    items.push([desc, qty, rate.toFixed(2), total.toFixed(2)]);
+    items.push([sr++,desc, qty, rate.toFixed(2), total.toFixed(2)]);
   });
 
   if (items.length === 0) return alert("Add at least one item");
 
-  const gst = subtotal * 0.00;
-  const grandTotal = subtotal + gst;
+  const vat = subtotal *(+vatPercent.value || 0) / 100;
+  const grandTotal = subtotal + vat;
   const balance = grandTotal - advance;
 
   doc.autoTable({
     startY: 85,
-    head: [["Description", "Qty", "Rate (AED)", "Total (AED)"]],
+    head: [["Sr","Description", "Qty", "Rate (AED)", "Total (AED)"]],
     body: items,
     columnStyles: {
-      0: { cellWidth: 90 },
-      1: { cellWidth: 20, halign: "center" },
-      2: { cellWidth: 30, halign: "right" },
-      3: { cellWidth: 35, halign: "right" }
+      0: { cellWidth: 8, halign: "center" },
+	  1: { cellWidth: 86 },
+      2: { cellWidth: 17, halign: "center" },
+      3: { cellWidth: 30, halign: "right" },
+      4: { cellWidth: 35, halign: "right" }
     },
     headStyles: {
       fillColor: [0, 51, 153],
@@ -96,22 +104,51 @@ async function generateInvoice() {
     alternateRowStyles: { fillColor: [245, 245, 245] }
   });
 
-  const finalY = doc.lastAutoTable.finalY + 10;
-  doc.setFont("helvetica", "bold");
-  doc.setTextColor(0, 51, 153);
-  doc.setFontSize(11);
-  doc.text(`Subtotal: AED ${subtotal.toFixed(2)}`, 130, finalY);
-  doc.text(`VAT (5%): AED ${gst.toFixed(2)}`, 130, finalY + 7);
-  doc.text(`Total:         AED ${grandTotal.toFixed(2)}`, 130, finalY + 14);
-  doc.text(`PAID:          AED ${advance.toFixed(2)}`, 130, finalY + 21);
-  doc.text(`__________________________`, 130, finalY + 23);
-  doc.text(`DU Balance: AED ${balance.toFixed(2)}`, 130, finalY + 28);
+  /* TOTALS – RIGHT SIDE */
+ const finalY = doc.lastAutoTable.finalY + 1;
+ doc.autoTable({
+
+  margin: { left: 126 },
+
+  body: [
+	["Subtotal", ` ${subtotal.toFixed(2)}`],
+    [`VAT ${vatPercent.value}%`, ` ${vat.toFixed(2)}`],
+    ["TOTAL Amount:", ` ${grandTotal.toFixed(2)}`],
+	["PAID", ` ${advance.toFixed(2)}`],
+    ["DU Balance", `AED ${balance.toFixed(2)}`]
+  ],
+
+  theme: "grid",   // ✅ enables background & borders
+
+  styles: {
+    fontSize: 11,
+    fontStyle: "bold",
+	cellPadding: 2,          // ✅ THIS LINE
+    textColor: [0, 0, 0],
+    fillColor: [250, 250, 250], // ✅ LIGHT GRAY BACKGROUND
+    lineWidth: 0.3
+  },
+
+  columnStyles: {
+    0: { cellWidth: 30 },
+    1: { cellWidth: 35, halign: "right" }
+  },
+
+  didParseCell: function (data) {
+    // ✅ Highlight Balance Due row
+    if (data.row.index === 4) {
+      data.cell.styles.fillColor = [220, 245, 230]; // light green
+      data.cell.styles.textColor = [0, 100, 0];
+      data.cell.styles.fontSize = 11;
+    }
+  }
+});
 
   // Signature Image
-  doc.addImage(signatureBase64, "PNG", 140, finalY + 40, 50, 25);
+  doc.addImage(signatureBase64, "PNG", 140, finalY + 60, 50, 25);
   doc.setFontSize(10);
   doc.setTextColor(100, 100, 100);
-  doc.text("Authorized Signature / Stamp", 142, finalY + 68);
+  doc.text("Authorized Signature / Stamp", 142, finalY + 88);
    // bottom Image
   doc.addImage(bottom, "PNG", 1,220, 208, 75);
   // Thank you message
@@ -147,3 +184,4 @@ function downloadPDF(blob) {
   document.body.removeChild(a);
 
 }
+  
