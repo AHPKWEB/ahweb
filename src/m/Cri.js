@@ -82,7 +82,7 @@ async function generateInvoice() {
         return;
     }
 
-    let gst = subtotal * 0.10; // 10% GST
+    let gst = subtotal * (+gstPercent.value || 0) / 100; // 10% GST
     let grandTotal = subtotal + gst;
     let balanceAmount = grandTotal - advance;
 
@@ -126,20 +126,50 @@ async function generateInvoice() {
         },
     });
 
-    let finalY = doc.lastAutoTable.finalY + 10;
-
+    
     // Subtotal, GST & Grand Total
-    doc.setFont("helvetica", "bold");
-    doc.setTextColor(0, 51, 153);
-    doc.setFontSize(13);
-    doc.text(`Subtotal:  Rs ${subtotal.toFixed(2)}`, 140, finalY);
-    doc.text(`GST (10%): Rs ${gst.toFixed(2)}`, 140, finalY + 10);
-    doc.text(`Grand Total:    Rs ${grandTotal.toFixed(2)}`, 130, finalY + 20);
-    doc.text(`Advance Paid: Rs ${advance.toFixed(2)}`, 130, finalY + 30);
-    doc.text(`------------------------------------------------------------`, 110, finalY + 33);
-    doc.text(`Balance Due:  Rs ${balanceAmount.toFixed(2)}`, 130, finalY + 40);
+    
+    const finalY = doc.lastAutoTable.finalY + 0;
+ doc.autoTable({
 
-    // Footer - Thank You Message
+  margin: { left: 130 },
+
+  body: [
+	["Subtotal Rs", ` ${subtotal.toFixed(2)}`],
+    [`GST ${gstPercent.value}%`, ` ${gst.toFixed(2)}`],
+	["Grand Total", ` ${grandTotal.toFixed(2)}`],
+    ["Advance Paid", ` ${advance.toFixed(2)}`],
+    ["Balance Due", `AED ${balanceAmount.toFixed(2)}`]
+  ],
+
+  theme: "grid",   // ✅ enables background & borders
+
+  styles: {
+    fontSize: 11,
+    fontStyle: "bold",
+	cellPadding: 2,          // ✅ THIS LINE
+    textColor: [0, 0, 0],
+    fillColor: [250, 250, 250], // ✅ LIGHT GRAY BACKGROUND
+    lineWidth: 0.3
+  },
+
+  columnStyles: {
+    0: { cellWidth: 34 },
+    1: { cellWidth: 35, halign: "right" }
+  },
+
+  didParseCell: function (data) {
+    // ✅ Highlight Balance Due row
+    if (data.row.index === 3) {
+      data.cell.styles.fillColor = [220, 245, 230]; // light green
+      data.cell.styles.textColor = [0, 100, 0];
+      data.cell.styles.fontSize = 11;
+    }
+  }
+});
+    
+	
+	// Footer - Thank You Message
     let footerY = finalY + 60;
     doc.setFont("times", "italic");
     doc.setFontSize(14);
@@ -238,5 +268,3 @@ function downloadPDF(pdfBlob) {
     link.click();
     document.body.removeChild(link);
 }
-
-
