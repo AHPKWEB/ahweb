@@ -61,9 +61,11 @@ async function generateInvoice() {
     let roomType = document.getElementById("roomType").value;
     let roomsNumber = document.getElementById("roomsNumber").value;
     let advance = parseFloat(document.getElementById("advance").value) || 0;
+	let gstPercent=parseFloat(document.getElementById("gstPercent").value)||0;
 
     let units = [];
     let subtotal = 0;
+	sr = 1;
 
     document.querySelectorAll(".unit").forEach((unit) => {
         let description = unit.querySelector(".description").value;
@@ -74,7 +76,7 @@ async function generateInvoice() {
         let total = nights > 0 ? quantity * nights * rate : quantity * rate;
         subtotal += total;
 
-        units.push([description, quantity, nights, rate.toFixed(2), total.toFixed(2)]);
+        units.push([sr++,description, quantity, nights, rate.toFixed(2), total.toFixed(2)]);
     });
 
     if (units.length === 0) {
@@ -82,7 +84,7 @@ async function generateInvoice() {
         return;
     }
 
-    let gst = subtotal * (+gstPercent.value || 0) / 100; // 10% GST
+    let gst=subtotal*gstPercent/100; // 10% GST
     let grandTotal = subtotal + gst;
     let balanceAmount = grandTotal - advance;
 
@@ -100,15 +102,16 @@ async function generateInvoice() {
 
     // Invoice Table with Colored Borders
     doc.autoTable({
-        startY: 100,
-        head: [["Description", "Quantity", "Nights", "Rate (Rs)", "Total (Rs)"]],
+        startY: 90,
+        head: [["Sr","Description", "Qty", "Nights", "Rate (Rs)", "Total (Rs)"]],
         body: units,
         columnStyles: {
-            0: { cellWidth: 95 }, // Description
-            1: { cellWidth: 15 }, // Quantity (Smaller)
-            2: { cellWidth: 15 }, // Nights (Smaller)
-            3: { cellWidth: 27 }, // Rate
-            4: { cellWidth: 35 }, // Total
+            0: { cellWidth: 10 }, // Description
+			1: { cellWidth: 90 }, // Rate
+            2: { cellWidth: 10, halign: "center" }, // Quantity (Smaller)
+            3: { cellWidth: 15, halign: "center" }, // Nights (Smaller)
+            4: { cellWidth: 27, halign: "right" }, // Rate
+            5: { cellWidth: 35, halign: "right" }, // Total
         },
         styles: {
             lineColor: [0, 102, 204],
@@ -129,41 +132,49 @@ async function generateInvoice() {
     
     // Subtotal, GST & Grand Total
     
-    const finalY = doc.lastAutoTable.finalY + 0;
- doc.autoTable({
+   
+ // Get position after items table
+const finalY = doc.lastAutoTable.finalY + 1;
 
-  margin: { left: 130 },
+doc.autoTable({
+  startY: finalY,   // ✅ IMPORTANT
+  margin: { left: 128 },
 
   body: [
-	["Subtotal Rs", ` ${subtotal.toFixed(2)}`],
-    [`GST ${gstPercent.value}%`, ` ${gst.toFixed(2)}`],
-	["Grand Total", ` ${grandTotal.toFixed(2)}`],
-    ["Advance Paid", ` ${advance.toFixed(2)}`],
-    ["Balance Due", `AED ${balanceAmount.toFixed(2)}`]
+    ["Subtotal", "Rs " + subtotal.toFixed(2)],
+    ["GST " + gstPercent + "%", "Rs " + gst.toFixed(2)],
+    ["Grand Total", "Rs " + grandTotal.toFixed(2)],
+    ["Advance Paid", "Rs " + advance.toFixed(2)],
+    ["Balance Due", "Rs " + balanceAmount.toFixed(2)]
   ],
 
-  theme: "grid",   // ✅ enables background & borders
+  theme: "grid",
 
   styles: {
     fontSize: 11,
     fontStyle: "bold",
-	cellPadding: 2,          // ✅ THIS LINE
+    cellPadding: 3,
     textColor: [0, 0, 0],
-    fillColor: [250, 250, 250], // ✅ LIGHT GRAY BACKGROUND
+    fillColor: [250, 250, 250],
     lineWidth: 0.3
   },
 
   columnStyles: {
-    0: { cellWidth: 34 },
+    0: { cellWidth: 38 },
     1: { cellWidth: 35, halign: "right" }
   },
 
   didParseCell: function (data) {
-    // ✅ Highlight Balance Due row
-    if (data.row.index === 3) {
-      data.cell.styles.fillColor = [220, 245, 230]; // light green
+    // Highlight Balance row
+    if (data.row.index === 4) {
+      data.cell.styles.fillColor = [220, 245, 230];
       data.cell.styles.textColor = [0, 100, 0];
-      data.cell.styles.fontSize = 11;
+      data.cell.styles.fontSize = 12;
+    }
+
+    // Make Grand Total slightly darker
+    if (data.row.index === 2) {
+      data.cell.styles.fillColor = [230, 230, 255];
     }
   }
 });
@@ -190,7 +201,7 @@ doc.text("General Terms and Conditions", 15, 20);
 doc.setFont("times", "normal");
 doc.setFontSize(11);
 doc.setTextColor(0, 0, 0);
-const termsFull = `Note: A 10% GST will be applicable on all cash payments.
+const termsFull = `Note: A  ${gstPercent} %  GST will be applicable on all cash payments.
 This quotation is valid for next 24 hours.  We charge 1500/- per day additional for heating in room.
 The Chinar Resorts management reserves the right to modify any or all listed rates at its sole discretion, 
 at any time and without assigning any reason. Bookings against which advance payment has been received shall, however,
