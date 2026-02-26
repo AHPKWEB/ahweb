@@ -59,6 +59,7 @@ async function generateInvoice() {
     doc.setFontSize(14);
     doc.setTextColor(0, 0, 0); // Black
     
+	// Get booking number safely
     let bookingNumber = document.getElementById("bookingNumber").value;
     let name = document.getElementById("name").value;
     let phoneNumber = document.getElementById("phoneNumber").value;
@@ -68,9 +69,11 @@ async function generateInvoice() {
     let roomType = document.getElementById("roomType").value;
     let roomsNumber = document.getElementById("roomsNumber").value;
     let advance = parseFloat(document.getElementById("advance").value) || 0;
+	let gstPercent=parseFloat(document.getElementById("gstPercent").value)||0;
 
     let units = [];
     let subtotal = 0;
+	sr = 1;
 
     document.querySelectorAll(".unit").forEach((unit) => {
         let description = unit.querySelector(".description").value;
@@ -81,7 +84,7 @@ async function generateInvoice() {
         let total = nights > 0 ? quantity * nights * rate : quantity * rate;
         subtotal += total;
 
-        units.push([description, quantity, nights, rate.toFixed(2), total.toFixed(2)]);
+        units.push([sr++,description, quantity, nights, rate.toFixed(2), total.toFixed(2)]);
     });
 
     if (units.length === 0) {
@@ -89,7 +92,7 @@ async function generateInvoice() {
         return;
     }
 
-    let gst = subtotal * 0.05; // 5% GST
+    let gst=subtotal*gstPercent/100; // 10% GST
     let grandTotal = subtotal + gst;
     let balanceAmount = grandTotal - advance;
 
@@ -107,15 +110,16 @@ async function generateInvoice() {
 
     // Invoice Table with Colored Borders
     doc.autoTable({
-        startY: 100,
-        head: [["Description", "Quantity", "Nights", "Rate (Rs)", "Total (Rs)"]],
+        startY: 95,
+        head: [["Sr","Description", "Qty", "Nights", "Rate (Rs)", "Total (Rs)"]],
         body: units,
         columnStyles: {
-            0: { cellWidth: 95 }, // Description
-            1: { cellWidth: 15 }, // Quantity (Smaller)
-            2: { cellWidth: 15 }, // Nights (Smaller)
-            3: { cellWidth: 27 }, // Rate
-            4: { cellWidth: 35 }, // Total
+            0: { cellWidth: 10 }, // sr no
+			1: { cellWidth: 90 }, // Description
+            2: { cellWidth: 10, halign: "center" }, // Quantity (Smaller)
+            3: { cellWidth: 15, halign: "center" }, // Nights (Smaller)
+            4: { cellWidth: 27, halign: "right" }, // Rate
+            5: { cellWidth: 35, halign: "right" }, // Total
         },
         styles: {
             lineColor: [0, 102, 204],
@@ -133,26 +137,57 @@ async function generateInvoice() {
         },
     });
 
-    let finalY = doc.lastAutoTable.finalY + 10;
-
     // Subtotal, GST & Grand Total
-    doc.setFont("helvetica", "bold");
-    doc.setTextColor(0, 51, 153);
-    doc.setFontSize(13);
-    doc.text(`Subtotal:  Rs ${subtotal.toFixed(2)}`, 140, finalY);
-    doc.text(`B Tex (5%): Rs ${gst.toFixed(2)}`, 140, finalY + 10);
-    doc.text(`Grand Total:    Rs ${grandTotal.toFixed(2)}`, 130, finalY + 20);
-    doc.text(`Advance Paid: Rs ${advance.toFixed(2)}`, 130, finalY + 30);
-    doc.line(110, finalY + 33, 200, finalY + 33);
-    doc.text(`Balance Due:  Rs ${balanceAmount.toFixed(2)}`, 130, finalY + 40);
+ const finalY = doc.lastAutoTable.finalY + 1;
+doc.autoTable({
+  startY: finalY,   // ✅ IMPORTANT
+  margin: { left: 128 },
 
+  body: [
+    ["Subtotal", "Rs " + subtotal.toFixed(2)],
+    ["Bed Tax " + gstPercent + "%", "Rs " + gst.toFixed(2)],
+    ["Grand Total", "Rs " + grandTotal.toFixed(2)],
+    ["Advance Paid", "Rs " + advance.toFixed(2)],
+    ["Balance Due", "Rs " + balanceAmount.toFixed(2)]
+  ],
+
+  theme: "grid",
+
+  styles: {
+    fontSize: 11,
+    fontStyle: "bold",
+    cellPadding: 3,
+    textColor: [0, 0, 0],
+    fillColor: [250, 250, 250],
+    lineWidth: 0.3
+  },
+
+  columnStyles: {
+    0: { cellWidth: 38 },
+    1: { cellWidth: 35, halign: "right" }
+  },
+
+  didParseCell: function (data) {
+    // Highlight Balance row
+    if (data.row.index === 4) {
+      data.cell.styles.fillColor = [220, 245, 230];
+      data.cell.styles.textColor = [0, 100, 0];
+      data.cell.styles.fontSize = 12;
+    }
+
+    // Make Grand Total slightly darker
+    if (data.row.index === 2) {
+      data.cell.styles.fillColor = [230, 230, 255];
+    }
+  }
+});
     // Footer - Thank You Message
     let footerY = finalY + 60;
     doc.setFont("times", "italic");
     doc.setFontSize(14);
     doc.setTextColor(34, 139, 34);
 	doc.setLineDash([3, 3]); // Dashed line (3px dash, 3px gap)
-    doc.line(20, finalY + 33, 200, finalY + 33);
+    doc.line(20, finalY + 55, 200, finalY + 55);
     doc.setLineDash([]); // Reset to solid lines
     doc.text("Thank you for choosing MAWA  HOTEL & RESTAURANT!", 20, footerY);
     doc.setFontSize(16);
@@ -161,7 +196,28 @@ async function generateInvoice() {
     doc.setFontSize(14);
 	doc.setTextColor(204, 0, 0);
     doc.text("See the second page attached to read the general terms and conditions.", 20, footerY + 20);
+  
+ const pageCount = doc.getNumberOfPages();
 
+for (let i = 1; i <= pageCount; i++) {
+  doc.setPage(i);
+
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const pageHeight = doc.internal.pageSize.getHeight();
+
+  doc.setFillColor(11, 218, 222);
+  doc.rect(10, pageHeight - 12, pageWidth - 20, 9, "F");
+
+  doc.setTextColor(255, 255, 255);
+  doc.setFontSize(11);
+  doc.setFont("helvetica", "bold");
+  doc.text(
+    "MAWA HOTEL & RESTAURANT | Phone: +92 347 9004293",
+    pageWidth / 2,
+    pageHeight - 6,
+    { align: "center" }
+  );
+}
     // Generate and Download/Share PDF
     let pdfBlob = doc.output("blob");
     let file = new File([pdfBlob], "Mawa_Hotel_booking_invoice.pdf", { type: "application/pdf" });
